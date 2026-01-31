@@ -2,31 +2,32 @@ import Navbar from "@/components/Navbar";
 import ContactHotline from "@/components/ContactHotline";
 import Footer from "@/components/Footer";
 
-export default async function LangLayout({
-  children,
-  params,
-}: {
+// Định nghĩa kiểu dữ liệu chuẩn cho Next.js 15/16
+type Props = {
   children: React.ReactNode;
-  params: { lang: string };
-}) {
-  // 1. Phải await params để lấy lang (Chuẩn Next.js 14/15)
-  const resolvedParams = await params;
+  params: Promise<{ lang: string }>; // BẮT BUỘC: params phải là Promise
+};
+
+export default async function LangLayout(props: Props) {
+  // 1. Giải nén (await) các giá trị từ props
+  const { children } = props;
+  const resolvedParams = await props.params;
   const lang = resolvedParams.lang;
 
   return (
     <>
-      {/* 2. Thanh điều hướng */}
+      {/* 2. Thanh điều hướng - Sử dụng lang đã await */}
       <Navbar lang={lang} />
       
-      {/* 3. Nội dung trang web */}
+      {/* 3. Nội dung trang chính */}
       <main className="min-h-screen pt-[88px]"> 
         {children}
       </main>
 
-      {/* 4. Chân trang - Đã truyền lang để đồng bộ 5 thứ tiếng */}
+      {/* 4. Chân trang - Đồng bộ 5 thứ tiếng */}
       <Footer lang={lang} />
 
-      {/* 5. Nút liên hệ cố định - Đã truyền lang để đồng bộ 5 thứ tiếng */}
+      {/* 5. Nút liên hệ - Đồng bộ 5 thứ tiếng */}
       <ContactHotline lang={lang} />
     </>
   );

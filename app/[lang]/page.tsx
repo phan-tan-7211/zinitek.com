@@ -1,16 +1,17 @@
 import Hero from "@/components/home/Hero";
 import Services from "@/components/home/Services";
 
-// 1. Chuyển hàm thành async
-export default async function Page({ params }: { params: { lang: string } }) {
-  
-  // 2. PHẢI có await ở đây để lấy giá trị lang từ URL
-  const resolvedParams = await params;
-  const lang = resolvedParams.lang;
+// Định nghĩa kiểu dữ liệu chuẩn cho Next.js 15/16: params phải là một Promise
+interface PageProps {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function Page(props: PageProps) {
+  // Giải nén params bằng await (Bắt buộc cho phiên bản mới)
+  const { lang } = await props.params;
 
   return (
     <>
-      {/* Bây giờ lang đã là "vi", "ja", "en"... thực sự */}
       <Hero lang={lang} />
       <Services lang={lang} />
     </>
