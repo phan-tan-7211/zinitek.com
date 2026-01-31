@@ -18,7 +18,7 @@ export default function Logo({ lang }: { lang: string }) {
         {/* whitespace-nowrap để đảm bảo chữ ZINITREK không bị xuống dòng */}
 
 
-        
+
       {/* 1. HIỆU ỨNG VỆT SÁNG ÁNH KIM (Metallic Shine) */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <div className="shine-effect" />
@@ -40,7 +40,7 @@ export default function Logo({ lang }: { lang: string }) {
         <span className="text-2xl font-black tracking-tighter text-white leading-none uppercase">
           ZINITEK <span className="text-orange-500">PRECISION</span>
         </span>
-        <span className="text-[9px] text-orange-500 tracking-[0.3em] uppercase font-bold mt-1.5">
+        <span className="text-[9px] text-orange-500 tracking-[0.2em] uppercase font-bold mt-1.5">
           {slogans[lang] || slogans.en}
         </span>
       </div>
