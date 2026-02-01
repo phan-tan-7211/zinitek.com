@@ -30,7 +30,7 @@ export default function Navbar({ lang }: { lang: string }) {
     en: [{ name: "Home", href: "/en" }, { name: "About", href: "/en/about" }, { name: "Services", href: "/en/services" }, { name: "Products", href: "/en/products" }, { name: "Contact", href: "/en/contact" }],
     ja: [{ name: "ホーム", href: "/ja" }, { name: "紹介", href: "/ja/about" }, { name: "サービス", href: "/ja/services" }, { name: "製品", href: "/ja/products" }, { name: "連絡先", href: "/ja/contact" }],
     ko: [{ name: "홈", href: "/ko" }, { name: "소개", href: "/ko/about" }, { name: "서비스", href: "/ko/services" }, { name: "제품", href: "/ko/products" }, { name: "문의하기", href: "/ko/contact" }],
-    zh: [{ name: "首页", href: "/zh" }, { name: "关于", href: "/zh/about" }, { name: "服务", href: "/zh/services" }, { name: "产品", href: "/zh/products" }, { name: "联系", href: "/zh/contact" }]
+    zh: [{ name: "首页", href: "/zh" }, { name: "关于", href: "/zh/about" }, { name: "服务", href: "/zh/services" }, { name: "产品", href: "/zh/products" }, { name: "联系 ", href: "/zh/contact" }]
   };
 
   const menu = menuData[currentLang] || menuData.vi;
@@ -47,9 +47,9 @@ export default function Navbar({ lang }: { lang: string }) {
     <>
       <nav 
         className={`fixed top-0 w-full z-[1000] transition-all duration-500 ease-in-out
-        ${isScrolled 
-          ? "h-16 bg-[#020617]/90 backdrop-blur-xl border-b border-orange-500/20 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]" 
-          : "h-24 bg-transparent border-b border-transparent"}`}
+  ${isScrolled 
+    ? "h-16 bg-[#020617]/90 backdrop-blur-xl border-b border-orange-500/20 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]" 
+    : "h-24 bg-transparent border-none"}`} // Thay border-transparent bằng border-none cho chắc chắn
       >
         <div className="max-w-7xl mx-auto h-full px-4 md:px-10 flex items-center justify-between gap-4">
           

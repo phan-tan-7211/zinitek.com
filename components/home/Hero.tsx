@@ -7,19 +7,15 @@ export default function Hero({ lang }: { lang: string }) {
   const [particles, setParticles] = useState<any[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // ==========================================
-  // CHỈNH SỐ LƯỢNG HẠT Ở ĐÂY
   const particleCount = 380; 
-  // ==========================================
 
   useEffect(() => {
     setMounted(true);
     const newParticles = [...Array(particleCount)].map(() => {
       const rand = Math.random();
       let color = "#ffffff"; 
-      if (rand > 0.6) color = "#00f2ff";      // Tăng lên 40% hạt xanh Neon
-        else if (rand > 0.3) color = "#ea580c"; // 30% hạt cam Zinitek
-        // 30% còn lại tự động là màu trắng
+      if (rand > 0.6) color = "#00f2ff";      
+        else if (rand > 0.3) color = "#ea580c"; 
 
       return {
         size: Math.random() * 3 + 1,
@@ -55,21 +51,34 @@ export default function Hero({ lang }: { lang: string }) {
   const data = dict[currentLang] || dict.vi;
 
   return (
-    <header className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#020617]">
+    // THAY ĐỔI: Thêm top-0 và đảm bảo không có margin/padding phía trên
+    <header className="relative min-h-[100dvh] w-full flex items-center overflow-hidden bg-[#020617] m-0 p-0">
       
       {/* 1. LỚP NỀN (Z-0) */}
       <motion.div 
         className="absolute inset-0 z-0"
         style={{ x: mousePos.x * -0.5, y: mousePos.y * -0.5 }}
       >
-        <div className="absolute inset-0 bg-[url('/images/header.jpg')] bg-cover bg-center opacity-30 animate-ken-burns scale-110"></div>
+        {/* 
+            THAY ĐỔI: 
+            1. bg-top thay vì bg-center để ảnh bám chặt mí trên.
+            2. Thêm origin-top vào animate-ken-burns để khi scale nó không bị kéo xuống.
+        */}
+        
+        <div 
+        className="absolute inset-0 bg-[url('/images/header.jpg')] bg-cover bg-top opacity-30 animate-ken-burns scale-110 origin-top"
+        style={{ top: 0 }} // Đảm bảo bám chặt top
+      ></div>
+        
+
       </motion.div>
       
-      <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-[#020617]/85 to-transparent z-1"></div>
+      {/* Gradient phủ lên nền - Chỉnh lại z-index để không che mất ảnh */}
+    <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-[#020617]/85 to-transparent z-[1] top-0"></div>
 
       {/* 2. LỚP HẠT (Z-5) */}
       <motion.div 
-        className="absolute inset-0 z-5 pointer-events-none"
+        className="absolute inset-0 z-[5] pointer-events-none"
         style={{ x: mousePos.x, y: mousePos.y }}
       >
         {mounted && (
@@ -93,13 +102,12 @@ export default function Hero({ lang }: { lang: string }) {
       </motion.div>
       
       {/* 3. NỘI DUNG CHỮ (Z-10) */}
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-10 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-10 relative z-10">
         <div className="max-w-4xl">
-          
           <motion.h2 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-orange-500 font-bold tracking-[0.5em] uppercase text-xs mb-6"
+            className="text-orange-500 font-bold tracking-[0.5em] uppercase text-[10px] sm:text-xs mb-6"
           >
             {data.desc}
           </motion.h2>
@@ -108,7 +116,7 @@ export default function Hero({ lang }: { lang: string }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-6xl md:text-9xl font-black mb-8 leading-[0.85] uppercase italic tracking-tighter"
+            className="text-5xl md:text-9xl font-black mb-8 leading-[0.85] uppercase italic tracking-tighter"
           >
             <span className="text-white">{data.h1}</span> <br />
             <span className="text-orange-500">{data.h1_sub}</span>
@@ -118,18 +126,18 @@ export default function Hero({ lang }: { lang: string }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl leading-relaxed border-l-2 border-orange-500/50 pl-6"
+            className="text-slate-300 text-base md:text-xl mb-12 max-w-2xl leading-relaxed border-l-2 border-orange-500/50 pl-6"
           >
             {data.sub_prefix}
             <span className="text-white font-bold">{data.brand}</span>
             {data.sub_suffix}
           </motion.p>
 
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-4 sm:gap-6">
             <motion.button 
               whileHover={{ scale: 1.05, backgroundColor: "#f97316" }}
               whileTap={{ scale: 0.95 }}
-              className="bg-[#ea580c] text-white px-12 py-5 font-black text-xs uppercase tracking-widest shadow-xl"
+              className="bg-[#ea580c] text-white px-8 md:px-12 py-4 md:py-5 font-black text-[10px] md:text-xs uppercase tracking-widest shadow-xl"
             >
               {data.btn1}
             </motion.button>
@@ -137,7 +145,7 @@ export default function Hero({ lang }: { lang: string }) {
             <motion.button 
               whileHover={{ scale: 1.05, borderColor: "#ffffff", color: "#ffffff" }}
               whileTap={{ scale: 0.95 }}
-              className="border border-slate-700 bg-white/5 backdrop-blur-sm text-slate-300 px-12 py-5 font-black text-xs uppercase tracking-widest transition-all"
+              className="border border-slate-700 bg-white/5 backdrop-blur-sm text-slate-300 px-8 md:px-12 py-4 md:py-5 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all"
             >
               {data.btn2}
             </motion.button>
