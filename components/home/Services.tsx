@@ -19,7 +19,7 @@ export default function Services({ lang }: { lang: string }) {
       tagline: "Zinitek 精密機械株式会社" 
     },
     ko: { 
-      main: "기계 가공", 
+      main: "기계 가 công", 
       sub: "서비스", 
       tagline: "Zinitek 정밀 공학" 
     },
@@ -76,34 +76,46 @@ export default function Services({ lang }: { lang: string }) {
   ];
 
   return (
-    <section className="py-24 bg-[#020617]">
-      <div className="container mx-auto px-6">
+    <section className="py-24 bg-[#020617] w-full overflow-hidden">
+      {/* Container max-w-7xl px-6 để thẳng lề với Navbar/Logo */}
+      <div className="max-w-7xl mx-auto px-6">
+        
         {/* Tiêu đề chuẩn phong cách cơ khí */}
-        <div className="border-l-4 border-orange-600 pl-6 mb-16">
+        <div className="border-l-4 border-[#ea580c] pl-6 mb-16">
           <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter">
             {currentTitle.main} <span className="text-[#ea580c]">{currentTitle.sub}</span>
           </h2>
-          {/* Dòng Tagline đã được đồng bộ hóa ngôn ngữ */}
           <p className="text-slate-500 text-xs mt-2 uppercase tracking-[0.3em]">
             {currentTitle.tagline}
           </p>
         </div>
         
         {/* Grid 8 Card */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {services.map((s) => (
-            <div key={s.id} className="relative h-64 group cursor-pointer overflow-hidden border border-white/5 bg-slate-900 shadow-2xl">
+            <div 
+              key={s.id} 
+              className="relative h-72 group cursor-pointer overflow-hidden border border-white/5 bg-slate-900 shadow-2xl"
+            >
+              {/* Hình ảnh nền */}
               <img 
                 src={s.img} 
                 className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
                 alt={s.id}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent group-hover:from-orange-900/80 transition-all duration-500"></div>
+              
+              {/* Lớp phủ Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent group-hover:from-orange-900/80 transition-all duration-500" />
+              
+              {/* Viền Neon khi Hover (Sửa lỗi cú pháp) */}
+              <div className="absolute inset-0 border border-white/0 group-hover:border-[#ea580c]/30 transition-all duration-500 pointer-events-none z-20" />
+
+              {/* Nội dung chữ: Cần bọc trong 1 div flex để căn chỉnh */}
               <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
-                <span className="text-[#ea580c] font-black text-4xl opacity-20 group-hover:opacity-100 transition-opacity">
+                <span className="text-[#ea580c] font-black text-5xl opacity-10 group-hover:opacity-100 transition-opacity duration-500">
                     {s.id}
                 </span>
-                <h3 className="text-white font-bold text-sm leading-tight uppercase group-hover:text-orange-400 transition-colors">
+                <h3 className="text-white font-bold text-base leading-tight uppercase group-hover:text-orange-400 transition-colors duration-300">
                   {s.name[lang as keyof typeof s.name] || s.name.en}
                 </h3>
               </div>
