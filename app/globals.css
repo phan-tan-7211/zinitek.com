@@ -10,12 +10,15 @@
   --font-heading: var(--font-montserrat);
   --font-sans: var(--font-inter);
 
-  /* 2. ĐỊNH NGHĨA HIỆU ỨNG ANIMATION */
+  /* 2. ĐỊNH NGHĨA ANIMATION (Chuẩn Tailwind v4) */
   --animate-ring-shake: ring-shake 0.5s infinite ease-in-out;
   --animate-pulse-orange: pulse-orange 2s infinite;
   --animate-pulse-blue: pulse-blue 2s infinite;
+  --animate-ken-burns: kenburns 30s infinite alternate ease-in-out;
+  --animate-fade-in-up: fadeInUp 1s ease-out forwards;
+  --animate-galaxy: galaxy-rotate 250s linear infinite;
 
-  /* 3. KHAI BÁO KEYFRAMES (Phải nằm trong @theme của v4) */
+  /* 3. KHAI BÁO TẤT CẢ KEYFRAMES TRONG THEME */
   @keyframes ring-shake {
     0%, 100% { transform: rotate(0); }
     20%, 60% { transform: rotate(-15deg); }
@@ -33,9 +36,38 @@
     70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(41, 98, 255, 0); }
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
   }
+
+  @keyframes kenburns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes galaxy-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { 
+      opacity: 1; 
+      transform: scale(1.5); 
+      filter: brightness(1.5) drop-shadow(0 0 15px currentColor); 
+    }
+  }
+
+  @keyframes space-float {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-30vh) translateX(30vh); }
+  }
 }
 
-/* 4. THIẾT LẬP CƠ BẢN (BASE) */
+/* 4. THIẾT LẬP CƠ BẢN */
 @layer base {
   body {
     @apply bg-slate-950 text-slate-200 antialiased;
@@ -51,4 +83,9 @@
   .glass {
     @apply bg-slate-900/80 backdrop-blur-md border-b border-orange-500/20;
   }
+}
+
+/* Các class animation bổ sung không có sẵn trong theme */
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite alternate;
 }

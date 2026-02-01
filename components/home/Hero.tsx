@@ -1,108 +1,158 @@
 "use client";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Hero({ lang }: { lang: string }) {
-  // Dictionary chuẩn hóa
+  const [mounted, setMounted] = useState(false);
+  const [particles, setParticles] = useState<any[]>([]);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // ==========================================
+  // CHỈNH SỐ LƯỢNG HẠT Ở ĐÂY
+  const particleCount = 380; 
+  // ==========================================
+
+  useEffect(() => {
+    setMounted(true);
+    const newParticles = [...Array(particleCount)].map(() => {
+      const rand = Math.random();
+      let color = "#ffffff"; 
+      if (rand > 0.6) color = "#00f2ff";      // Tăng lên 40% hạt xanh Neon
+        else if (rand > 0.3) color = "#ea580c"; // 30% hạt cam Zinitek
+        // 30% còn lại tự động là màu trắng
+
+      return {
+        size: Math.random() * 3 + 1,
+        color: color,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: Math.random() * 4 + 2,
+        delay: Math.random() * 10,
+        driftDuration: Math.random() * 100 + 100
+      };
+    });
+    setParticles(newParticles);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   const dict: any = {
-    vi: { 
-      desc: "Uy tín - Chất lượng - Tiến độ",
-      h1: "GIA CÔNG", 
-      h1_sub: "PRECISION.", 
-      // Tách sub_text để dễ dàng chèn span
-      sub_prefix: "Công ty ",
-      brand: "TNHH Cơ Khí Zinitek",
-      sub_suffix: " chuyên gia công khuôn mẫu, chi tiết máy và cung cấp linh kiện cơ khí chính xác hàng đầu.",
-      btn1: "KHÁM PHÁ", 
-      btn2: "BÁO GIÁ" 
-    },
-    en: { 
-      desc: "Prestige - Quality - Progress",
-      h1: "PRECISION", 
-      h1_sub: "MACHINING.", 
-      sub_prefix: "",
-      brand: "Zinitek Precision Engineering",
-      sub_suffix: " specializes in mold making, machine parts, and providing high-quality precision mechanical components.",
-      btn1: "EXPLORE", 
-      btn2: "GET A QUOTE" 
-    },
-    ja: { 
-      desc: "信頼 - 品質 - 進捗",
-      h1: "精密", 
-      h1_sub: "機械加工.", 
-      sub_prefix: "",
-      brand: "Zinitek精密機械",
-      sub_suffix: "は、金型製作、機械部品、および高品質の精密機械部品の提供を専門としています。",
-      btn1: "探索する", 
-      btn2: "見積もり" 
-    },
-    ko: { 
-      desc: "신뢰 - 품질 - 진척",
-      h1: "정밀", 
-      h1_sub: "기계 가공.", 
-      sub_prefix: "",
-      brand: "Zinitek Precision Engineering",
-      sub_suffix: "은 금형 제작, 기계 부품 및 고품질 정밀 기계 부품 공급을 전문으로 합니다.",
-      btn1: "탐색", 
-      btn2: "견적 요청" 
-    },
-    zh: { 
-      desc: "信誉 - 质量 - 进度",
-      h1: "精密", 
-      h1_sub: "机械加工.", 
-      sub_prefix: "",
-      brand: "Zinitek 精密工程",
-      sub_suffix: "专业从事模具制造、机械零件加工并提供高质量的精密机械部件。",
-      btn1: "探索", 
-      btn2: "获取报价" 
-    }
+    vi: { desc: "Uy tín - Chất lượng - Tiến độ", h1: "GIA CÔNG", h1_sub: "PRECISION.", sub_prefix: "Công ty ", brand: "Cơ Khí Zinitek", sub_suffix: " chuyên gia công khuôn mẫu, chi tiết máy và cung cấp linh kiện cơ khí chính xác hàng đầu.", btn1: "KHÁM PHÁ", btn2: "BÁO GIÁ" },
+    en: { desc: "Prestige - Quality - Progress", h1: "PRECISION", h1_sub: "MACHINING.", sub_prefix: "", brand: "Zinitek Precision", sub_suffix: " specializes in mold making, machine parts, and providing high-quality precision mechanical components.", btn1: "EXPLORE", btn2: "GET A QUOTE" },
+    ja: { desc: "信頼 - 品質 - 進捗", h1: "精密", h1_sub: "機械加工.", brand: "Zinitek精密機械", sub_suffix: "は、金型製作、機械部品、および高品質の精密機械部品の提供を専門としています.", btn1: "探索する", btn2: "見積もり" },
+    ko: { desc: "신뢰 - 품질 - 진척", h1: "정밀", h1_sub: "기계 가공.", brand: "Zinitek Precision", sub_suffix: "은 금형 제작, 기계 부품 및 고품질 정밀 기계 부품 공급을 전문으로 합니다.", btn1: "탐색", btn2: "견적 요청" },
+    zh: { desc: "信誉 - 质量 - 进度", h1: "精密", h1_sub: "机械加工.", brand: "Zinitek 精密工程", sub_suffix: "专业从事模具制造、机械零件加工并提供高质量的精密机械部件.", btn1: "探索", btn2: "获取报价" }
   };
 
   const currentLang = lang?.toLowerCase() || 'en';
-  const data = dict[currentLang] || dict.en;
+  const data = dict[currentLang] || dict.vi;
 
   return (
-    <header className="relative min-h-[85vh] flex items-center overflow-hidden bg-[#020617]">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-[url('/images/header.jpg')] bg-cover bg-center opacity-70"
-        style={{ transform: 'scale(1.05)' }}
-      ></div>
+    <header className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#020617]">
       
-      {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-[#020617]/90 to-transparent"></div>
+      {/* 1. LỚP NỀN (Z-0) */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ x: mousePos.x * -0.5, y: mousePos.y * -0.5 }}
+      >
+        <div className="absolute inset-0 bg-[url('/images/header.jpg')] bg-cover bg-center opacity-30 animate-ken-burns scale-110"></div>
+      </motion.div>
       
-      <div className="container mx-auto px-6 relative z-10 pt-20">
-        <div className="max-w-4xl">
-          {/* Slogan */}
-          <h2 className="text-orange-500 font-bold tracking-[0.4em] uppercase text-xs mb-4">
-            {data.desc}
-          </h2>
-          
-          {/* Main Title */}
-          <h1 className="text-5xl md:text-8xl font-black text-white mb-6 leading-none uppercase italic tracking-tighter">
-            {data.h1} <br />
-            <span className="text-orange-500">{data.h1_sub}</span>
-          </h1>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-[#020617]/85 to-transparent z-1"></div>
 
-          {/* Description Paragraph - Đã nhấn mạnh tên công ty màu trắng */}
-          <p className="text-slate-400 text-lg mb-10 max-w-2xl leading-relaxed">
+      {/* 2. LỚP HẠT (Z-5) */}
+      <motion.div 
+        className="absolute inset-0 z-5 pointer-events-none"
+        style={{ x: mousePos.x, y: mousePos.y }}
+      >
+        {mounted && (
+          <div className="absolute inset-[-50%] w-[200%] h-[200%] animate-galaxy">
+            {particles.map((p, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full shadow-lg"
+                style={{
+                  width: `${p.size}px`, height: `${p.size}px`,
+                  left: `${p.left}%`, top: `${p.top}%`,
+                  backgroundColor: p.color,
+                  boxShadow: `0 0 10px ${p.color}`,
+                  animation: `space-float ${p.driftDuration}s linear infinite, twinkle ${p.duration}s ease-in-out infinite alternate`,
+                  animationDelay: `${p.delay}s`,
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+      </motion.div>
+      
+      {/* 3. NỘI DUNG CHỮ (Z-10) */}
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-10 relative z-10">
+        <div className="max-w-4xl">
+          
+          <motion.h2 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-orange-500 font-bold tracking-[0.5em] uppercase text-xs mb-6"
+          >
+            {data.desc}
+          </motion.h2>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-6xl md:text-9xl font-black mb-8 leading-[0.85] uppercase italic tracking-tighter"
+          >
+            <span className="text-white">{data.h1}</span> <br />
+            <span className="text-orange-500">{data.h1_sub}</span>
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl leading-relaxed border-l-2 border-orange-500/50 pl-6"
+          >
             {data.sub_prefix}
             <span className="text-white font-bold">{data.brand}</span>
             {data.sub_suffix}
-          </p>
+          </motion.p>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap gap-4 mt-10">
-            <button className="bg-[#ea580c] hover:bg-orange-500 text-white px-10 py-4 font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-orange-900/20 active:scale-95">
+          <div className="flex flex-wrap gap-6">
+            <motion.button 
+              whileHover={{ scale: 1.05, backgroundColor: "#f97316" }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-[#ea580c] text-white px-12 py-5 font-black text-xs uppercase tracking-widest shadow-xl"
+            >
               {data.btn1}
-            </button>
-            <button className="border border-slate-700 hover:bg-slate-800 text-white px-10 py-4 font-black text-xs uppercase tracking-widest transition-all active:scale-95">
+            </motion.button>
+
+            <motion.button 
+              whileHover={{ scale: 1.05, borderColor: "#ffffff", color: "#ffffff" }}
+              whileTap={{ scale: 0.95 }}
+              className="border border-slate-700 bg-white/5 backdrop-blur-sm text-slate-300 px-12 py-5 font-black text-xs uppercase tracking-widest transition-all"
+            >
               {data.btn2}
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-orange-600 to-transparent opacity-30"></div>
+      {/* Đường quét đáy */}
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-slate-900/50">
+        <motion.div 
+          animate={{ x: ["-100%", "100%"] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          className="w-1/2 h-full bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-50"
+        />
+      </div>
     </header>
   );
 }

@@ -24,7 +24,10 @@ export default async function LangLayout(props: Props) {
 
       {/* 3. Nội dung trang chính */}
       {/* Thêm container mx-auto để nội dung nằm giữa và có lề hai bên */}
-<main className="min-h-screen pt-[88px] max-w-7xl mx-auto px-4 md:px-10">
+{/*<main className="min-h-screen pt-[88px] max-w-7xl mx-auto px-4 md:px-10">*/}
+
+<main className="min-h-screen pt-[88px]">
+
         {children}
       </main>
 
