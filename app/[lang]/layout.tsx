@@ -26,14 +26,14 @@ export default async function LangLayout(props: Props) {
       {/* Thêm container mx-auto để nội dung nằm giữa và có lề hai bên */}
 {/*<main className="min-h-screen pt-[88px] max-w-7xl mx-auto px-4 md:px-10">*/}
 
-<main className="min-h-screen pt-[88px]">
+<main className="min-h-screen">
 
         {children}
       </main>
 
       {/* 4. Chân trang - Đồng bộ 5 thứ tiếng */}
       {/* <Footer lang={lang} /> */}
-      <div className="max-w-7xl mx-auto px-4 md:px-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 mt-20"> {/* Thêm mt-20 để giãn cách */}
   <Footer lang={lang} />
     </div>
 
