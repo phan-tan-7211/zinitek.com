@@ -17,15 +17,22 @@ export default async function LangLayout(props: Props) {
   return (
     <>
       {/* 2. Thanh điều hướng - Sử dụng lang đã await */}
+      {/* <Navbar TRAN RA NGOÀI /> */}
+      {/* <Navbar lang={lang} /> */}
       <Navbar lang={lang} />
       
+
       {/* 3. Nội dung trang chính */}
-      <main className="min-h-screen pt-[88px]"> 
+      {/* Thêm container mx-auto để nội dung nằm giữa và có lề hai bên */}
+<main className="min-h-screen pt-[88px] max-w-7xl mx-auto px-4 md:px-10">
         {children}
       </main>
 
       {/* 4. Chân trang - Đồng bộ 5 thứ tiếng */}
-      <Footer lang={lang} />
+      {/* <Footer lang={lang} /> */}
+      <div className="max-w-7xl mx-auto px-4 md:px-10">
+  <Footer lang={lang} />
+    </div>
 
       {/* 5. Nút liên hệ - Đồng bộ 5 thứ tiếng */}
       <ContactHotline lang={lang} />

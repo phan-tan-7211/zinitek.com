@@ -13,39 +13,53 @@ export default function Logo({ lang }: { lang: string }) {
   return (
     <Link
       href={`/${lang}`}
-      className="relative flex items-center h-full group shrink-0 gap-4 px-4 overflow-hidden whitespace-nowrap"
-      >
-        {/* whitespace-nowrap để đảm bảo chữ ZINITREK không bị xuống dòng */}
-
-
-
+      /* 
+         - shrink: Cho phép logo co lại khi không gian hẹp.
+         - min-w-0: Bắt buộc phải có để các thành phần con bên trong co lại được.
+         - gap-2 sm:gap-4: Thu hẹp khoảng cách trên mobile.
+         - px-0 sm:px-4: Bỏ padding lề trên mobile để dành chỗ cho chữ.
+      */
+      className="relative flex items-center h-full group shrink min-w-0 gap-2 sm:gap-4 px-0 sm:px-4 overflow-hidden whitespace-nowrap"
+    >
       {/* 1. HIỆU ỨNG VỆT SÁNG ÁNH KIM (Metallic Shine) */}
       <div className="absolute inset-0 pointer-events-none z-10">
         <div className="shine-effect" />
       </div>
 
-      {/* 2. HÌNH THOI (Rhombus) - Xoay 180 độ khi hover */}
+      {/* 2. HÌNH THOI (Rhombus) - Co giãn tỉ lệ theo chiều cao Navbar */}
       <div 
-        className="relative h-full aspect-square bg-orange-600 flex items-center justify-center transition-transform duration-700 cubic-bezier(0.34, 1.56, 0.64, 1) group-hover:rotate-[180deg]"
+        className="relative h-[65%] sm:h-[75%] aspect-square bg-[#ea580c] flex items-center justify-center transition-transform duration-700 cubic-bezier(0.34, 1.56, 0.64, 1) group-hover:rotate-[180deg] min-w-0"
         style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}
       >
-        {/* CHỮ Z - Xoay 90 độ thành chữ N khi hover */}
-        <span className="text-white text-2xl font-black transition-transform duration-500 group-hover:rotate-[90deg]">
+        {/* CHỮ Z - Font size co giãn tỉ lệ */}
+        <span className="text-white text-[clamp(1rem,3vw,1.5rem)] font-black transition-transform duration-500 group-hover:rotate-[90deg]">
           Z
         </span>
       </div>
 
-      {/* 3. PHẦN TEXT BRAND */}
-      <div className="flex flex-col justify-center z-20">
-        <span className="text-2xl font-black tracking-tighter text-white leading-none uppercase">
-          ZINITEK <span className="text-orange-500">PRECISION</span>
+      {/* 3. PHẦN TEXT BRAND - TRÁI TIM CỦA SỰ CO GIÃN ĐỘNG */}
+      <div className="flex flex-col justify-center z-20 min-w-0 overflow-hidden">
+        {/* 
+           Sử dụng clamp() để font-size tự động tính toán:
+           - Nhỏ nhất: 1rem (16px) để vẫn đọc được trên Galaxy S8.
+           - Lý tưởng: 4.2vw (4.2% chiều ngang màn hình).
+           - Lớn nhất: 1.5rem (24px) cho Desktop.
+        */}
+        <span className="text-[clamp(1rem,4.2vw,1.5rem)] font-black tracking-tighter text-white leading-none uppercase transition-all duration-300">
+          ZINITEK <span className="text-[#ea580c]">PRECISION</span>
         </span>
-        <span className="text-[9px] text-orange-500 tracking-[0.2em] uppercase font-bold mt-1.5">
+        
+        {/* 
+           Slogan: 
+           - Tracking hẹp hơn trên mobile để không chiếm diện tích.
+           - Clamp cho font-size nhỏ từ 7px đến 9px.
+        */}
+        <span className="text-[clamp(7px,1.8vw,9px)] text-[#ea580c] tracking-[0.05em] sm:tracking-[0.2em] uppercase font-bold mt-1.5 opacity-90 truncate">
           {slogans[lang] || slogans.en}
         </span>
       </div>
 
-      {/* 4. CSS ANIMATION (Scoped inside the component) */}
+      {/* 4. CSS ANIMATION */}
       <style jsx>{`
         .shine-effect {
           position: absolute;
@@ -71,7 +85,6 @@ export default function Logo({ lang }: { lang: string }) {
           100% { left: 150%; }
         }
 
-        /* Hàm nội suy giúp hiệu ứng xoay mượt và nảy (tech feel) */
         .cubic-bezier {
           transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
